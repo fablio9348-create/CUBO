@@ -1077,4 +1077,10 @@
     this.Cube = Cube;
   }
 
-}).call(this);
+
+}).call(this);// Al final de tu solver.js
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = Cube;
+} else {
+  window.Cube = Cube;
+}
