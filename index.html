@@ -2,212 +2,195 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Cubo Rubik Solver 3D</title>
-<style>
-body {
-  margin: 0;
-  background: #111;
-  color: white;
-  font-family: Arial;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  perspective: 800px;
-  user-select: none;
-}
+    <meta charset="UTF-8">
+    <!-- 1. PEGA TU CÓDIGO DE GOOGLE AQUÍ ABAJO -->
+    <meta name="google-site-verification" content="AQUÍ_PONES_EL_CÓDIGO_QUE_COPIASTE_DE_GOOGLE" />
+    
+    <title>Cubo Rubik Solver 3D | Resolver Cubo Online</title>
+    <meta name="description" content="La mejor herramienta 3D para resolver el cubo de Rubik online. Pinta las caras de tu cubo y obtén la solución paso a paso gratis.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-.scene {
-  width: 240px;
-  height: 240px;
-  margin-top: 10px;
-}
+    <style>
+        body {
+            margin: 0;
+            background: #111;
+            color: white;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            perspective: 1000px;
+            user-select: none;
+            overflow-x: hidden;
+        }
 
-.cube {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transform: rotateX(-20deg) rotateY(30deg);
-}
+        h1 { margin-top: 20px; color: #00ff88; font-size: 1.5rem; text-align: center; }
 
-/* Caras */
-.face {
-  position: absolute;
-  width: 240px;
-  height: 240px;
-  border: 2px solid #555;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-}
+        .controls {
+            margin: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
 
-.front  { transform: rotateY(  0deg) translateZ(120px); }
-.back   { transform: rotateY(180deg) translateZ(120px); }
-.right  { transform: rotateY( 90deg) translateZ(120px); }
-.left   { transform: rotateY(-90deg) translateZ(120px); }
-.top    { transform: rotateX( 90deg) translateZ(120px); }
-.bottom { transform: rotateX(-90deg) translateZ(120px); }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #333;
+            color: white;
+            border: 2px solid #555;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
 
-.face div {
-  border: 1px solid #333;
-  background: black;
-  cursor: pointer;
-}
-.face div:hover { outline: 1px solid white; }
+        button:hover { background: #555; border-color: #00ff88; }
 
-button {
-  margin: 4px;
-  padding: 8px 15px;
-  font-size: 16px;
-}
+        .scene {
+            width: 250px;
+            height: 250px;
+            margin-top: 40px;
+        }
 
-pre {
-  margin-top: 5px;
-  background: #000;
-  padding: 10px;
-  max-width: 95%;
-  overflow: auto;
-}
-</style>
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-20deg) rotateY(30deg);
+            transition: transform 0.1s;
+        }
+
+        .face {
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border: 3px solid #000;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            background: #000;
+        }
+
+        /* Posiciones de las caras */
+        .front  { transform: rotateY(  0deg) translateZ(120px); }
+        .back   { transform: rotateY(180deg) translateZ(120px); }
+        .right  { transform: rotateY( 90deg) translateZ(120px); }
+        .left   { transform: rotateY(-90deg) translateZ(120px); }
+        .top    { transform: rotateX( 90deg) translateZ(120px); }
+        .bottom { transform: rotateX(-90deg) translateZ(120px); }
+
+        .face div {
+            border: 2px solid #111;
+            background: #222;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        #out {
+            margin-top: 30px;
+            background: #000;
+            color: #0dff00;
+            padding: 15px;
+            border-radius: 8px;
+            max-width: 90%;
+            width: 400px;
+            border: 1px solid #333;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    </style>
 </head>
 <body>
 
-<h2>Cubo Rubik Solver 3D</h2>
+    <h1>Cubo Rubik Solver 3D</h1>
 
-<div>
-  <button onclick="leerCubo()">Leer cubo</button>
-  <button onclick="resolverCubo()">Resolver</button>
-</div>
+    <div class="controls">
+        <button onclick="leerCubo()">Ver Estado</button>
+        <button onclick="resolverCubo()" style="background: #005533;">¡Resolver!</button>
+    </div>
 
-<pre id="out"></pre>
+    <div class="scene">
+        <div class="cube" id="cube">
+            <div class="face top" data-face="U"></div>
+            <div class="face right" data-face="R"></div>
+            <div class="face front" data-face="F"></div>
+            <div class="face bottom" data-face="D"></div>
+            <div class="face left" data-face="L"></div>
+            <div class="face back" data-face="B"></div>
+        </div>
+    </div>
 
-<div class="scene">
-  <div class="cube" id="cube">
+    <pre id="out">Instrucciones: Haz clic en las piezas para cambiar el color. Luego pulsa "Resolver".</pre>
 
-    <div class="face top" data-face="U"></div>
-    <div class="face right" data-face="R"></div>
-    <div class="face front" data-face="F"></div>
-    <div class="face bottom" data-face="D"></div>
-    <div class="face left" data-face="L"></div>
-    <div class="face back" data-face="B"></div>
+    <!-- CARGA DEL SOLVER -->
+    <script src="solver.js"></script>
 
-  </div>
-</div>
+    <script>
+        const colors = ["white", "red", "blue", "green", "yellow", "orange"];
+        const map = { "white":"U", "red":"R", "blue":"F", "yellow":"D", "orange":"L", "green":"B", "black":"?" };
 
-<!-- CARGA DEL SOLVER -->
-<script src="solver.js"></script>
+        // Crear las 9 piezas por cada cara
+        document.querySelectorAll(".face").forEach(face => {
+            for(let i = 0; i < 9; i++){
+                const cell = document.createElement("div");
+                cell.dataset.color = "black";
+                cell.onclick = () => {
+                    let idx = (colors.indexOf(cell.dataset.color) + 1) % colors.length;
+                    cell.dataset.color = colors[idx];
+                    cell.style.background = colors[idx];
+                };
+                face.appendChild(cell);
+            }
+        });
 
-<script>
-const colors = ["white", "red", "blue", "green", "yellow", "orange"];
-const map = {
-  "white":"W",
-  "red":"R",
-  "blue":"B",
-  "green":"G",
-  "yellow":"Y",
-  "orange":"O",
-  "black":"?"
-};
+        // Rotación del cubo con el ratón
+        let isDragging = false, lastX, lastY, rotX = -20, rotY = 30;
+        const cubeElement = document.getElementById("cube");
 
-// Crear piezas
-document.querySelectorAll(".face").forEach(face => {
-  for(let i = 0; i < 9; i++){
-    const cell = document.createElement("div");
-    cell.style.background = "black";
-    cell.dataset.color = "black";
+        document.addEventListener("mousedown", e => { isDragging = true; lastX = e.clientX; lastY = e.clientY; });
+        document.addEventListener("mouseup", () => isDragging = false);
+        document.addEventListener("mousemove", e => {
+            if(!isDragging) return;
+            rotY += (e.clientX - lastX) * 0.5;
+            rotX -= (e.clientY - lastY) * 0.5;
+            cubeElement.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            lastX = e.clientX; lastY = e.clientY;
+        });
 
-    cell.onclick = () => {
-      let idx = colors.indexOf(cell.dataset.color);
-      idx = (idx + 1) % colors.length;
-      cell.dataset.color = colors[idx];
-      cell.style.background = colors[idx];
-    };
+        function getCubeString(){
+            const order = ["U","R","F","D","L","B"];
+            let res = "";
+            order.forEach(f => {
+                document.querySelectorAll(`.face[data-face='${f}'] div`).forEach(c => {
+                    res += map[c.dataset.color] || "?";
+                });
+            });
+            return res;
+        }
 
-    face.appendChild(cell);
-  }
-});
+        function leerCubo(){
+            const s = getCubeString();
+            document.getElementById("out").textContent = "Estado actual:\n" + s;
+        }
 
-// Rotar con ratón
-const cube = document.getElementById("cube");
-let isDragging = false;
-let lastX, lastY;
-let rotX = -20;
-let rotY = 30;
-
-document.addEventListener("mousedown", e => {
-  isDragging = true;
-  lastX = e.clientX;
-  lastY = e.clientY;
-});
-document.addEventListener("mouseup", () => isDragging = false);
-document.addEventListener("mousemove", e => {
-  if(!isDragging) return;
-  const dx = e.clientX - lastX;
-  const dy = e.clientY - lastY;
-  rotY += dx * 0.5;
-  rotX -= dy * 0.5;
-  cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-  lastX = e.clientX;
-  lastY = e.clientY;
-});
-
-// Leer cubo
-function leerCubo(){
-  let txt = "Estado del cubo:\n\n";
-  document.querySelectorAll(".face").forEach(face => {
-    const name = face.dataset.face;
-    let line = name + ": ";
-    face.querySelectorAll("div").forEach(cell => {
-      line += map[cell.dataset.color] || "?";
-    });
-    txt += line + "\n";
-  });
-  document.getElementById("out").textContent = txt;
-}
-
-// Obtener string para solver
-function getCubeString(){
-  const order = ["U","R","F","D","L","B"];
-  let result = "";
-
-  order.forEach(faceName => {
-    const face = document.querySelector(`.face[data-face='${faceName}']`);
-    face.querySelectorAll("div").forEach(cell => {
-      result += map[cell.dataset.color] || "?";
-    });
-  });
-
-  return result;
-}
-
-// RESOLVER (FORMA CORRECTA)
-function resolverCubo(){
-  try {
-    if(typeof Cube === "undefined"){
-      document.getElementById("out").textContent = "❌ ERROR: solver.js no está cargado";
-      return;
-    }
-
-    const state = getCubeString();
-
-    if(state.includes("?")){
-      document.getElementById("out").textContent = "❌ Falta pintar piezas";
-      return;
-    }
-
-    const solution = Cube.solve(state);
-
-    document.getElementById("out").textContent =
-      "Estado:\n" + state + "\n\nSolución:\n" + solution;
-
-  } catch(e){
-    document.getElementById("out").textContent = "❌ Error: " + e;
-  }
-}
-</script>
-
+        function resolverCubo(){
+            try {
+                if(typeof Cube === "undefined"){
+                    alert("Error: solver.js no encontrado"); return;
+                }
+                const state = getCubeString();
+                if(state.includes("?")) {
+                    document.getElementById("out").textContent = "❌ Error: Pinta todas las piezas primero.";
+                    return;
+                }
+                const sol = Cube.solve(state);
+                document.getElementById("out").textContent = "✅ SOLUCIÓN:\n" + sol;
+            } catch(e) {
+                document.getElementById("out").textContent = "❌ Error en el cubo: Revisa si los colores son posibles.";
+            }
+        }
+    </script>
 </body>
 </html>
-
