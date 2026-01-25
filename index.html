@@ -5,14 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Verificación oficial de Google -->
+    <!-- Verificación oficial de Google para tu cuenta -->
     <meta name="google-site-verification" content="Z99ZBjHrZFIqrI3PEwfmSU_7J6_Dv2jAxOsJCJrkrZQ" />
     
-    <!-- SEO: Para aparecer en las búsquedas de 2026 -->
-    <title>Cómo resolver el Cubo de Rubik 3x3 | Solver 3D Online Gratis</title>
-    <meta name="description" content="Aprende cómo resolver el cubo de Rubik 3x3 con nuestro solver 3D. Solo pinta los colores de tu cubo y obtén la solución paso a paso con algoritmos fáciles.">
-    <meta name="keywords" content="resolver cubo rubik, solver 3x3, solucionar cubo rubik online, algoritmos rubik">
-
+    <!-- SEO para aparecer en búsquedas en 2026 -->
+    <title>Cómo Resolver el Cubo de Rubik 3x3 | Solver 3D Online Gratis</title>
+    <meta name="description" content="Aprende a resolver el cubo de Rubik 3x3 paso a paso. Usa nuestro simulador 3D para obtener los algoritmos de resolución gratis y rápido.">
+    
     <style>
         body {
             margin: 0;
@@ -25,36 +24,26 @@
             min-height: 100vh;
             perspective: 1000px;
             user-select: none;
-            padding-bottom: 50px;
+            padding: 20px;
         }
 
-        h1 { margin-top: 20px; color: #00ff88; font-size: 1.8rem; text-align: center; }
+        h1 { color: #00ff88; text-align: center; }
 
-        .controls {
-            margin: 20px;
-            display: flex;
-            gap: 10px;
-            z-index: 10;
-        }
+        .controls { margin: 20px; display: flex; gap: 10px; }
 
         button {
-            padding: 12px 25px;
-            font-size: 16px;
+            padding: 12px 20px;
             cursor: pointer;
-            background: #222;
+            background: #333;
             color: white;
-            border: 2px solid #444;
+            border: 2px solid #555;
             border-radius: 8px;
-            transition: all 0.3s;
+            transition: 0.3s;
         }
 
-        button:hover { background: #444; border-color: #00ff88; transform: translateY(-2px); }
+        button:hover { background: #555; border-color: #00ff88; }
 
-        .scene {
-            width: 250px;
-            height: 250px;
-            margin: 40px 0;
-        }
+        .scene { width: 250px; height: 250px; margin: 40px 0; }
 
         .cube {
             width: 100%;
@@ -92,22 +81,16 @@
         #out {
             background: #000;
             color: #0dff00;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 8px;
             width: 90%;
             max-width: 500px;
-            border: 1px solid #333;
             white-space: pre-wrap;
             font-family: monospace;
+            border: 1px solid #333;
         }
 
-        .info-section {
-            max-width: 700px;
-            margin-top: 50px;
-            padding: 20px;
-            line-height: 1.6;
-            color: #bbb;
-        }
+        .info { max-width: 600px; margin-top: 40px; color: #ccc; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -116,7 +99,7 @@
 
     <div class="controls">
         <button onclick="leerCubo()">Ver Estado</button>
-        <button onclick="resolverCubo()" style="background: #005533; border-color: #008855;">¡Obtener Solución!</button>
+        <button onclick="resolverCubo()" style="background: #004422;">¡Resolver!</button>
     </div>
 
     <div class="scene">
@@ -130,18 +113,14 @@
         </div>
     </div>
 
-    <pre id="out">Instrucciones: Haz clic en las piezas para poner los colores de tu cubo. Luego pulsa "¡Obtener Solución!".</pre>
+    <pre id="out">Instrucciones: Haz clic en las piezas para poner los colores de tu cubo. Luego pulsa "Resolver".</pre>
 
-    <div class="info-section">
-        <h2>¿Cómo usar este solver de cubo de Rubik?</h2>
-        <p>Si quieres aprender <strong>cómo resolver el cubo de Rubik 3x3</strong>, esta herramienta es perfecta para ti. Nuestro simulador 3D te guía paso a paso.</p>
-        <ul>
-            <li>Gira el cubo virtual arrastrando con el ratón o el dedo.</li>
-            <li>Copia los colores de tu cubo físico haciendo clic en los cuadraditos.</li>
-            <li>Al terminar, la aplicación te dará la lista de movimientos (U, R, L, F...) para armarlo.</li>
-        </ul>
+    <div class="info">
+        <h2>¿Cómo solucionar el cubo de Rubik?</h2>
+        <p>Con este simulador 3D puedes aprender <strong>cómo resolver un cubo de Rubik</strong> fácilmente. Introduce los colores de tu cubo y el solver calculará la solución óptima usando algoritmos profesionales.</p>
     </div>
 
+    <!-- Asegúrate de tener el archivo solver.js en el mismo repositorio -->
     <script src="solver.js"></script>
 
     <script>
@@ -193,17 +172,17 @@
         function resolverCubo(){
             try {
                 if(typeof Cube === "undefined"){
-                    alert("Aviso: solver.js no cargado."); return;
+                    alert("Error: solver.js no cargado."); return;
                 }
                 const state = getCubeString();
                 if(state.includes("?")) {
-                    document.getElementById("out").textContent = "❌ ERROR: Pinta todos los cuadros primero.";
+                    document.getElementById("out").textContent = "❌ ERROR: Pinta todos los cuadros.";
                     return;
                 }
                 const sol = Cube.solve(state);
-                document.getElementById("out").textContent = "✅ SOLUCIÓN:\n\n" + sol;
+                document.getElementById("out").textContent = "✅ SOLUCIÓN:\n" + sol;
             } catch(e) {
-                document.getElementById("out").textContent = "❌ ERROR: Los colores no son posibles. Revisa tu cubo.";
+                document.getElementById("out").textContent = "❌ ERROR: Cubo imposible. Revisa los colores.";
             }
         }
     </script>
