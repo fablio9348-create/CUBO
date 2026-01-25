@@ -3,12 +3,15 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- 1. PEGA TU CÓDIGO DE GOOGLE AQUÍ ABAJO -->
-    <meta name="google-site-verification" content="AQUÍ_PONES_EL_CÓDIGO_QUE_COPIASTE_DE_GOOGLE" />
-    
-    <title>Cubo Rubik Solver 3D | Resolver Cubo Online</title>
-    <meta name="description" content="La mejor herramienta 3D para resolver el cubo de Rubik online. Pinta las caras de tu cubo y obtén la solución paso a paso gratis.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Verificación oficial de Google -->
+    <meta name="google-site-verification" content="Z99ZBjHrZFIqrI3PEwfmSU_7J6_Dv2jAxOsJCJrkrZQ" />
+    
+    <!-- SEO: Para aparecer en las búsquedas de 2026 -->
+    <title>Cómo resolver el Cubo de Rubik 3x3 | Solver 3D Online Gratis</title>
+    <meta name="description" content="Aprende cómo resolver el cubo de Rubik 3x3 con nuestro solver 3D. Solo pinta los colores de tu cubo y obtén la solución paso a paso con algoritmos fáciles.">
+    <meta name="keywords" content="resolver cubo rubik, solver 3x3, solucionar cubo rubik online, algoritmos rubik">
 
     <style>
         body {
@@ -22,10 +25,10 @@
             min-height: 100vh;
             perspective: 1000px;
             user-select: none;
-            overflow-x: hidden;
+            padding-bottom: 50px;
         }
 
-        h1 { margin-top: 20px; color: #00ff88; font-size: 1.5rem; text-align: center; }
+        h1 { margin-top: 20px; color: #00ff88; font-size: 1.8rem; text-align: center; }
 
         .controls {
             margin: 20px;
@@ -35,22 +38,22 @@
         }
 
         button {
-            padding: 12px 20px;
+            padding: 12px 25px;
             font-size: 16px;
             cursor: pointer;
-            background: #333;
+            background: #222;
             color: white;
-            border: 2px solid #555;
+            border: 2px solid #444;
             border-radius: 8px;
-            transition: 0.3s;
+            transition: all 0.3s;
         }
 
-        button:hover { background: #555; border-color: #00ff88; }
+        button:hover { background: #444; border-color: #00ff88; transform: translateY(-2px); }
 
         .scene {
             width: 250px;
             height: 250px;
-            margin-top: 40px;
+            margin: 40px 0;
         }
 
         .cube {
@@ -59,7 +62,6 @@
             position: relative;
             transform-style: preserve-3d;
             transform: rotateX(-20deg) rotateY(30deg);
-            transition: transform 0.1s;
         }
 
         .face {
@@ -73,7 +75,6 @@
             background: #000;
         }
 
-        /* Posiciones de las caras */
         .front  { transform: rotateY(  0deg) translateZ(120px); }
         .back   { transform: rotateY(180deg) translateZ(120px); }
         .right  { transform: rotateY( 90deg) translateZ(120px); }
@@ -89,16 +90,23 @@
         }
 
         #out {
-            margin-top: 30px;
             background: #000;
             color: #0dff00;
-            padding: 15px;
-            border-radius: 8px;
-            max-width: 90%;
-            width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
             border: 1px solid #333;
             white-space: pre-wrap;
             font-family: monospace;
+        }
+
+        .info-section {
+            max-width: 700px;
+            margin-top: 50px;
+            padding: 20px;
+            line-height: 1.6;
+            color: #bbb;
         }
     </style>
 </head>
@@ -108,7 +116,7 @@
 
     <div class="controls">
         <button onclick="leerCubo()">Ver Estado</button>
-        <button onclick="resolverCubo()" style="background: #005533;">¡Resolver!</button>
+        <button onclick="resolverCubo()" style="background: #005533; border-color: #008855;">¡Obtener Solución!</button>
     </div>
 
     <div class="scene">
@@ -122,16 +130,24 @@
         </div>
     </div>
 
-    <pre id="out">Instrucciones: Haz clic en las piezas para cambiar el color. Luego pulsa "Resolver".</pre>
+    <pre id="out">Instrucciones: Haz clic en las piezas para poner los colores de tu cubo. Luego pulsa "¡Obtener Solución!".</pre>
 
-    <!-- CARGA DEL SOLVER -->
+    <div class="info-section">
+        <h2>¿Cómo usar este solver de cubo de Rubik?</h2>
+        <p>Si quieres aprender <strong>cómo resolver el cubo de Rubik 3x3</strong>, esta herramienta es perfecta para ti. Nuestro simulador 3D te guía paso a paso.</p>
+        <ul>
+            <li>Gira el cubo virtual arrastrando con el ratón o el dedo.</li>
+            <li>Copia los colores de tu cubo físico haciendo clic en los cuadraditos.</li>
+            <li>Al terminar, la aplicación te dará la lista de movimientos (U, R, L, F...) para armarlo.</li>
+        </ul>
+    </div>
+
     <script src="solver.js"></script>
 
     <script>
         const colors = ["white", "red", "blue", "green", "yellow", "orange"];
         const map = { "white":"U", "red":"R", "blue":"F", "yellow":"D", "orange":"L", "green":"B", "black":"?" };
 
-        // Crear las 9 piezas por cada cara
         document.querySelectorAll(".face").forEach(face => {
             for(let i = 0; i < 9; i++){
                 const cell = document.createElement("div");
@@ -145,7 +161,6 @@
             }
         });
 
-        // Rotación del cubo con el ratón
         let isDragging = false, lastX, lastY, rotX = -20, rotY = 30;
         const cubeElement = document.getElementById("cube");
 
@@ -172,23 +187,23 @@
 
         function leerCubo(){
             const s = getCubeString();
-            document.getElementById("out").textContent = "Estado actual:\n" + s;
+            document.getElementById("out").textContent = "Estado detectado:\n" + s;
         }
 
         function resolverCubo(){
             try {
                 if(typeof Cube === "undefined"){
-                    alert("Error: solver.js no encontrado"); return;
+                    alert("Aviso: solver.js no cargado."); return;
                 }
                 const state = getCubeString();
                 if(state.includes("?")) {
-                    document.getElementById("out").textContent = "❌ Error: Pinta todas las piezas primero.";
+                    document.getElementById("out").textContent = "❌ ERROR: Pinta todos los cuadros primero.";
                     return;
                 }
                 const sol = Cube.solve(state);
-                document.getElementById("out").textContent = "✅ SOLUCIÓN:\n" + sol;
+                document.getElementById("out").textContent = "✅ SOLUCIÓN:\n\n" + sol;
             } catch(e) {
-                document.getElementById("out").textContent = "❌ Error en el cubo: Revisa si los colores son posibles.";
+                document.getElementById("out").textContent = "❌ ERROR: Los colores no son posibles. Revisa tu cubo.";
             }
         }
     </script>
