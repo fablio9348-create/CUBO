@@ -1,107 +1,34 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Verificación oficial de Google para tu cuenta -->
-    <meta name="google-site-verification" content="Z99ZBjHrZFIqrI3PEwfmSU_7J6_Dv2jAxOsJCJrkrZQ" />
-    
-    <!-- SEO para aparecer en búsquedas en 2026 -->
-    <title>Cómo Resolver el Cubo de Rubik 3x3 | Solver 3D Online Gratis</title>
-    <meta name="description" content="Aprende a resolver el cubo de Rubik 3x3 paso a paso. Usa nuestro simulador 3D para obtener los algoritmos de resolución gratis y rápido.">
-    
+    <title>Cubo Rubik Solver 3D | Resolver Online 2026</title>
+    <meta name="description" content="Resuelve tu cubo de Rubik 3x3 online con nuestro solver interactivo 3D.">
     <style>
-        body {
-            margin: 0;
-            background: #111;
-            color: white;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            perspective: 1000px;
-            user-select: none;
-            padding: 20px;
-        }
-
-        h1 { color: #00ff88; text-align: center; }
-
-        .controls { margin: 20px; display: flex; gap: 10px; }
-
-        button {
-            padding: 12px 20px;
-            cursor: pointer;
-            background: #333;
-            color: white;
-            border: 2px solid #555;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-
-        button:hover { background: #555; border-color: #00ff88; }
-
-        .scene { width: 250px; height: 250px; margin: 40px 0; }
-
-        .cube {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transform: rotateX(-20deg) rotateY(30deg);
-        }
-
-        .face {
-            position: absolute;
-            width: 240px;
-            height: 240px;
-            border: 3px solid #000;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            background: #000;
-        }
-
-        .front  { transform: rotateY(  0deg) translateZ(120px); }
-        .back   { transform: rotateY(180deg) translateZ(120px); }
-        .right  { transform: rotateY( 90deg) translateZ(120px); }
-        .left   { transform: rotateY(-90deg) translateZ(120px); }
-        .top    { transform: rotateX( 90deg) translateZ(120px); }
+        body { margin: 0; background: #111; color: white; font-family: Arial; display: flex; flex-direction: column; align-items: center; min-height: 100vh; perspective: 1000px; }
+        h1 { color: #00ff88; }
+        .controls { margin: 20px; display: flex; gap: 10px; z-index: 10; }
+        button { padding: 12px 20px; cursor: pointer; background: #333; color: white; border: 2px solid #555; border-radius: 8px; }
+        .scene { width: 250px; height: 250px; margin-top: 40px; }
+        .cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transform: rotateX(-20deg) rotateY(30deg); }
+        .face { position: absolute; width: 240px; height: 240px; border: 3px solid #000; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); background: #000; }
+        .front { transform: rotateY(0deg) translateZ(120px); }
+        .back { transform: rotateY(180deg) translateZ(120px); }
+        .right { transform: rotateY(90deg) translateZ(120px); }
+        .left { transform: rotateY(-90deg) translateZ(120px); }
+        .top { transform: rotateX(90deg) translateZ(120px); }
         .bottom { transform: rotateX(-90deg) translateZ(120px); }
-
-        .face div {
-            border: 2px solid #111;
-            background: #222;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        #out {
-            background: #000;
-            color: #0dff00;
-            padding: 15px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
-            white-space: pre-wrap;
-            font-family: monospace;
-            border: 1px solid #333;
-        }
-
-        .info { max-width: 600px; margin-top: 40px; color: #ccc; line-height: 1.6; }
+        .face div { border: 2px solid #111; background: #222; cursor: pointer; }
+        #out { background: #000; color: #0dff00; padding: 15px; width: 90%; max-width: 500px; white-space: pre-wrap; font-family: monospace; }
     </style>
 </head>
 <body>
-
     <h1>Cubo Rubik Solver 3D</h1>
-
     <div class="controls">
         <button onclick="leerCubo()">Ver Estado</button>
-        <button onclick="resolverCubo()" style="background: #004422;">¡Resolver!</button>
+        <button onclick="resolverCubo()" style="background: #004422;">Resolver</button>
     </div>
-
     <div class="scene">
         <div class="cube" id="cube">
             <div class="face top" data-face="U"></div>
@@ -112,21 +39,11 @@
             <div class="face back" data-face="B"></div>
         </div>
     </div>
-
-    <pre id="out">Instrucciones: Haz clic en las piezas para poner los colores de tu cubo. Luego pulsa "Resolver".</pre>
-
-    <div class="info">
-        <h2>¿Cómo solucionar el cubo de Rubik?</h2>
-        <p>Con este simulador 3D puedes aprender <strong>cómo resolver un cubo de Rubik</strong> fácilmente. Introduce los colores de tu cubo y el solver calculará la solución óptima usando algoritmos profesionales.</p>
-    </div>
-
-    <!-- Asegúrate de tener el archivo solver.js en el mismo repositorio -->
+    <pre id="out">Instrucciones: Pinta los colores y pulsa Resolver.</pre>
     <script src="solver.js"></script>
-
     <script>
         const colors = ["white", "red", "blue", "green", "yellow", "orange"];
         const map = { "white":"U", "red":"R", "blue":"F", "yellow":"D", "orange":"L", "green":"B", "black":"?" };
-
         document.querySelectorAll(".face").forEach(face => {
             for(let i = 0; i < 9; i++){
                 const cell = document.createElement("div");
@@ -139,10 +56,8 @@
                 face.appendChild(cell);
             }
         });
-
         let isDragging = false, lastX, lastY, rotX = -20, rotY = 30;
         const cubeElement = document.getElementById("cube");
-
         document.addEventListener("mousedown", e => { isDragging = true; lastX = e.clientX; lastY = e.clientY; });
         document.addEventListener("mouseup", () => isDragging = false);
         document.addEventListener("mousemove", e => {
@@ -152,7 +67,6 @@
             cubeElement.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
             lastX = e.clientX; lastY = e.clientY;
         });
-
         function getCubeString(){
             const order = ["U","R","F","D","L","B"];
             let res = "";
@@ -163,28 +77,18 @@
             });
             return res;
         }
-
-        function leerCubo(){
-            const s = getCubeString();
-            document.getElementById("out").textContent = "Estado detectado:\n" + s;
-        }
-
+        function leerCubo(){ document.getElementById("out").textContent = "Estado: " + getCubeString(); }
         function resolverCubo(){
             try {
-                if(typeof Cube === "undefined"){
-                    alert("Error: solver.js no cargado."); return;
-                }
-                const state = getCubeString();
-                if(state.includes("?")) {
-                    document.getElementById("out").textContent = "❌ ERROR: Pinta todos los cuadros.";
-                    return;
-                }
-                const sol = Cube.solve(state);
-                document.getElementById("out").textContent = "✅ SOLUCIÓN:\n" + sol;
-            } catch(e) {
-                document.getElementById("out").textContent = "❌ ERROR: Cubo imposible. Revisa los colores.";
-            }
+                if(typeof Cube === "undefined"){ alert("solver.js no cargado"); return; }
+                const sol = Cube.solve(getCubeString());
+                document.getElementById("out").textContent = "SOLUCIÓN:\n" + sol;
+            } catch(e) { document.getElementById("out").textContent = "Error en colores."; }
         }
     </script>
 </body>
 </html>
+
+
+           
+
