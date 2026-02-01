@@ -2,9 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- Tu verificación de Google para que no se pierda -->
     <meta name="google-site-verification" content="Z99ZBjHrZFIqrI3PEwfmSU_7J6_Dv2jAxOsJCJrkrZQ" />
     <title>Cubo Rubik Solver 3D</title>
+    
+    <!-- 1. ESTILOS PARA EL AVISO DE COOKIES -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net" />
+    
     <style>
         body {
             margin: 0;
@@ -18,6 +21,7 @@
             perspective: 800px;
             user-select: none;
         }
+        /* ... (Mantenemos todo tu CSS igual) ... */
         .scene { width: 240px; height: 240px; margin-top: 10px; }
         .cube {
             width: 100%; height: 100%; position: relative;
@@ -64,8 +68,26 @@
   </div>
 </div>
 
+<!-- 2. SCRIPTS DE COOKIES (Antes de cerrar el body) -->
+<script src="https://cdn.jsdelivr.net" data-cfasync="false"></script>
+<script>
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": { "background": "#232323", "text": "#ffffff" },
+    "button": { "background": "#444", "text": "#ffffff", "border": "#ffffff" }
+  },
+  "content": {
+    "message": "Este sitio usa cookies para que tu experiencia sea perfecta.",
+    "dismiss": "Permitir",
+    "link": "Más info",
+    "href": "https://www.cookiesandyou.com"
+  }
+});
+</script>
+
 <script src="solver.js"></script>
 <script>
+/* ... (Todo tu código de lógica del cubo se queda igual aquí abajo) ... */
 const colors = ["white", "red", "blue", "green", "yellow", "orange"];
 const map = { "white":"W", "red":"R", "blue":"B", "green":"G", "yellow":"Y", "orange":"O", "black":"?" };
 
@@ -122,3 +144,5 @@ function resolverCubo(){
 </script>
 </body>
 </html>
+
+
