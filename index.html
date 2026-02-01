@@ -3,10 +3,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <!-- Tu verificación de Google para que no se pierda -->
     <meta name="google-site-verification" content="Z99ZBjHrZFIqrI3PEwfmSU_7J6_Dv2jAxOsJCJrkrZQ" />
     <title>Cubo Rubik Solver 3D</title>
-    <!-- Estilo del cartel de cookies -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net" />
     <style>
         body {
             margin: 0;
@@ -66,25 +65,8 @@
   </div>
 </div>
 
-<!-- Script que crea el cartel de "Permitir" -->
-<script src="https://cdn.jsdelivr.net" data-cfasync="false"></script>
-<script>
-window.cookieconsent.initialise({
-  "palette": {
-    "popup": { "background": "#000" },
-    "button": { "background": "#f1d600" }
-  },
-  "content": {
-    "message": "Este sitio utiliza cookies para mejorar tu experiencia.",
-    "dismiss": "Permitir",
-    "link": "Leer más"
-  }
-});
-</script>
-
 <script src="solver.js"></script>
 <script>
-// ... aquí va el resto de tu lógica del cubo (colors, map, leerCubo, etc.)
 const colors = ["white", "red", "blue", "green", "yellow", "orange"];
 const map = { "white":"W", "red":"R", "blue":"B", "green":"G", "yellow":"Y", "orange":"O", "black":"?" };
 
@@ -141,3 +123,4 @@ function resolverCubo(){
 </script>
 </body>
 </html>
+
